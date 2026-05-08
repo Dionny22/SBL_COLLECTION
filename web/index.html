@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inventaire</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <div class="header-content">
+          <div class="logo">
+            <img src="logo.png.jpeg" alt="SBL Collection Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline'">
+            <span style="display: none; font-size: 2rem;">🏪</span>
+            <h1>SBL Collection</h1>
+          </div>
+          <p>Gestion intelligente de votre inventaire</p>
+        </div>
+      </header>
+
+      <section class="card auth-card">
+        <h2>Connexion utilisateur</h2>
+        <form id="login-form" class="auth-form">
+          <label>
+            Utilisateur
+            <select id="login-username" required>
+              <option value="">Sélectionner un utilisateur</option>
+              <option value="Sébastien">Sébastien</option>
+              <option value="Blessing">Blessing</option>
+              <option value="Jaabir">Jaabir</option>
+            </select>
+          </label>
+          <label>
+            Mot de passe
+            <input type="password" id="login-password" placeholder="Mot de passe" required />
+          </label>
+          <div class="button-row">
+            <button type="submit" class="btn btn-primary">
+              <span>🔐</span>
+              Se connecter
+            </button>
+          </div>
+        </form>
+        <div id="user-info" class="user-info hidden">
+          <p>Connecté en tant que <strong id="current-user"></strong></p>
+          <button id="logout-button" class="btn btn-secondary">Déconnexion</button>
+        </div>
+        <div id="reset-panel" class="reset-panel hidden">
+          <h3>Réinitialiser la base de données</h3>
+          <p>Entrez le code de récupération pour remettre la base à zéro.</p>
+          <form id="reset-form" class="auth-form">
+            <label>
+              Code de réinitialisation
+              <input type="text" id="reset-code" placeholder="SBLCOLLECTIONSHOP" required />
+            </label>
+            <div class="button-row">
+              <button type="submit" class="btn btn-danger">
+                <span>⚠️</span>
+                Réinitialiser
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <nav class="nav-tabs">
+        <button class="tab-button active" data-tab="inventory">
+          <span class="tab-icon">📦</span>
+          Inventaire
+        </button>
+        <button class="tab-button" data-tab="sales">
+          <span class="tab-icon">💰</span>
+          Ventes/Destockages
+        </button>
+        <button class="tab-button" data-tab="history">
+          <span class="tab-icon">📜</span>
+          Historique
+        </button>
+      </nav>
+
+      <div id="inventory-tab" class="tab-content active">
+        <section class="card form-card">
+          <h2 id="form-title">Ajouter un article</h2>
+          <form id="article-form">
+            <input type="hidden" id="article-id" />
+
+            <label>
+              Nom de l'article
+              <input type="text" id="name" placeholder="Ex: Clavier" required />
+            </label>
+
+            <label>
+              Quantité
+              <input type="number" id="quantity" min="0" value="1" required />
+            </label>
+
+            <label>
+              Prix (CFA)
+              <input type="number" id="price" min="0" step="0.01" placeholder="0.00" />
+            </label>
+
+            <label>
+              Catégorie
+              <select id="category" required>
+                <option value="">Sélectionner une catégorie</option>
+              </select>
+            </label>
+
+            <label>
+              Description
+              <textarea id="description" rows="3" placeholder="Description courte"></textarea>
+            </label>
+
+            <label>
+              Photo
+              <input type="file" id="photo" accept="image/*" />
+            </label>
+
+            <div class="button-row">
+              <button type="submit" class="btn btn-primary">
+                <span>💾</span>
+                Enregistrer
+              </button>
+              <button type="button" id="reset-button" class="btn btn-secondary">
+                <span>🔄</span>
+                Annuler
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <section class="card">
+          <div class="toolbar">
+            <div>
+              <label for="search">Rechercher :</label>
+              <input type="search" id="search" placeholder="Recherche par nom ou catégorie" />
+            </div>
+            <div class="stats">Articles en stock: <span id="article-count">0</span></div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Photo</th>
+                <th>Nom</th>
+                <th>Catégorie</th>
+                <th>Quantité</th>
+                <th>Prix</th>
+                <th>Description</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="articles-body"></tbody>
+          </table>
+        </section>
+      </div>
+
+      <div id="sales-tab" class="tab-content">
+        <section class="card">
+          <h2>Historique des Ventes/Destockages</h2>
+          <div class="toolbar">
+            <div class="stats">Total des ventes: <span id="sales-total">0</span> CFA</div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Article</th>
+                <th>Quantité</th>
+                <th>Utilisateur</th>
+                <th>Prix unitaire</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody id="sales-body"></tbody>
+          </table>
+        </section>
+      </div>
+
+      <div id="history-tab" class="tab-content">
+        <section class="card">
+          <h2>Historique des actions</h2>
+          <div class="toolbar">
+            <div class="stats">Dernières actions sur l'inventaire</div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Action</th>
+                <th>Article</th>
+                <th>Utilisateur</th>
+                <th>Quantité</th>
+                <th>Prix</th>
+                <th>Total</th>
+                <th>Note</th>
+              </tr>
+            </thead>
+            <tbody id="history-body"></tbody>
+          </table>
+        </section>
+      </div>
+
+      <div id="message" class="toast"></div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

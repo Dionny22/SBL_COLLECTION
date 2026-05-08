@@ -1,0 +1,11 @@
+{
+  "name": "inventaire-web",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "npx serve . -l 3001"
+  },
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}
