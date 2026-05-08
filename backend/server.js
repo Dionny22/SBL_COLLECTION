@@ -50,6 +50,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(WEB_DIR, 'index.html'));
 });
 
+app.get('/healthz', (req, res) => {
+  res.status(200).send('OK');
+});
+
 function readData() {
   try {
     const raw = fs.readFileSync(DATA_FILE, 'utf-8');
