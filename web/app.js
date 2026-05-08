@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api';
+const API_URL = '/api';
 const articlesBody = document.getElementById('articles-body');
 const salesBody = document.getElementById('sales-body');
 const salesTotal = document.getElementById('sales-total');
