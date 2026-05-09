@@ -210,7 +210,7 @@ function renderArticles() {
     .map((article) => {
       const description = article.description ? article.description : '-';
       const photoHtml = article.photo
-        ? `<img src="${API_URL}${article.photo}" alt="${article.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px; cursor: pointer;" onclick="showImageModal('${API_URL}${article.photo}', '${article.name}')">`
+        ? `<img src="${article.photo}" alt="${article.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px; cursor: pointer;" onclick="showImageModal('${article.photo}', '${article.name}')">`
         : '-';
       const priceHtml = article.price ? `${article.price} CFA` : '-';
       return `
