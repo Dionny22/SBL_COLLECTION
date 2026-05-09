@@ -34,6 +34,16 @@ function showMessage(text, type = 'success') {
   setTimeout(() => messageBox.classList.remove('show'), 3000);
 }
 
+function showImageModal(src, alt) {
+  const modal = document.getElementById('image-modal');
+  const modalImg = document.getElementById('modal-image');
+  const caption = document.getElementById('modal-caption');
+  modal.style.display = 'block';
+  modalImg.src = src;
+  modalImg.alt = alt;
+  caption.textContent = alt;
+}
+
 function getAuthHeaders() {
   return authToken ? { Authorization: `Bearer ${authToken}` } : {};
 }
@@ -200,7 +210,7 @@ function renderArticles() {
     .map((article) => {
       const description = article.description ? article.description : '-';
       const photoHtml = article.photo
-        ? `<img src="${API_URL}${article.photo}" alt="${article.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">`
+        ? `<img src="${API_URL}${article.photo}" alt="${article.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px; cursor: pointer;" onclick="showImageModal('${API_URL}${article.photo}', '${article.name}')">`
         : '-';
       const priceHtml = article.price ? `${article.price} CFA` : '-';
       return `
@@ -471,6 +481,18 @@ window.addEventListener('load', async () => {
       const tabId = button.dataset.tab + '-tab';
       document.getElementById(tabId).classList.add('active');
     });
+  });
+
+  // Modal close
+  document.getElementById('close-modal').addEventListener('click', () => {
+    document.getElementById('image-modal').style.display = 'none';
+  });
+
+  window.addEventListener('click', (event) => {
+    const modal = document.getElementById('image-modal');
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
   });
 
   setInterval(async () => {
