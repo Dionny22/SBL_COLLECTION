@@ -338,7 +338,7 @@ app.put('/api/articles/:id', authenticate, upload.single('photo'), async (req, r
       }
 
       if (req.file && article.photo) {
-        const oldPhotoPath = path.join(__dirname, article.photo);
+        const oldPhotoPath = path.join(__dirname, '.' + article.photo);
         if (fs.existsSync(oldPhotoPath)) {
           fs.unlinkSync(oldPhotoPath);
         }
@@ -370,7 +370,7 @@ app.put('/api/articles/:id', authenticate, upload.single('photo'), async (req, r
     }
 
     if (req.file && data.articles[index].photo) {
-      const oldPhotoPath = path.join(__dirname, data.articles[index].photo);
+      const oldPhotoPath = path.join(__dirname, '.' + data.articles[index].photo);
       if (fs.existsSync(oldPhotoPath)) {
         fs.unlinkSync(oldPhotoPath);
       }
@@ -414,7 +414,7 @@ app.delete('/api/articles/:id', authenticate, async (req, res) => {
       }
 
       if (article.photo) {
-        const photoPath = path.join(__dirname, article.photo);
+        const photoPath = path.join(__dirname, '.' + article.photo);
         if (fs.existsSync(photoPath)) {
           fs.unlinkSync(photoPath);
         }
